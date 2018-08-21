@@ -4,7 +4,8 @@ import App from './App';
 import { shallow } from 'enzyme';
 
 describe('Rendering tests: ', () => {
-  let wrapper;
+  var wrapper;
+  const checkPattern = (<span> Results: pong</span>)
   beforeEach( () => {
     wrapper = shallow(<App />);
   })
@@ -19,19 +20,19 @@ describe('Rendering tests: ', () => {
     ).toBe(1);
   });
 
-  it('setState sync assignment test: ', () => {
+  it('setState to DOM sync test: ', () => {
     wrapper.setState({ response: 'pong'});
     wrapper.update();
     expect(
-      wrapper.contains(<span>Results: pong</span>)
+      wrapper.contains(checkPattern)
     ).toBe(true)
   })
 
-  it('setState async assignment test: ', () => {
+  it('setState to DOM async test: ', () => {
     wrapper.setState({ response: 'pong'}, () => {
       wrapper.update();
       expect(
-        wrapper.contains(<span>Results: pong</span>)
+        wrapper.contains(checkPattern)
       ).toBe(true)
     });
   })
@@ -41,9 +42,15 @@ describe('Rendering tests: ', () => {
     wrapper.find('button').simulate('click')
     setImmediate( () => {
       wrapper.update();
-      if (!wrapper.contains(<span>Results: pong</span>))
+      if (!wrapper.contains(checkPattern))
         done(fail("pong not exists"))
       done();
     })
   });
 });
+
+describe('new tests', () => {
+  it('first new', () => {
+    expect(true).toBe(true)
+  })
+})
