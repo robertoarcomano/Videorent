@@ -1,35 +1,47 @@
 import React, { Component } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { Dropdown, Menu } from 'semantic-ui-react'
+import * as LABELS from '../constants/labels';
+import App from './App';
+import { connect } from 'react-redux';
 
-class MenuVideo extends Component {
+export class MenuVideoTemp extends Component {
   constructor(props) {
     super(props);
-    this.handleItemClick = this.handleItemClick.bind(this)
-  }
-
-  handleItemClick(e) {
-    alert("ok")
   }
 
   render() {
+    const menuItems = LABELS.MENU.map( label =>
+      <Menu.Item
+        name={label}
+        key={label}
+        onClick={ () => this.props.Activate(label) }
+        active={this.props.active == label}
+      />
+    )
     return (
-      <Menu horizontal>
-        <Menu.Item
-          name='Articles'
-          onClick={this.handleItemClick}
-        />
-        <Menu.Item
-          name='Customers'
-          onClick={this.handleItemClick}
-        />
-        <Menu.Item
-          name='Rentals'
-          onClick={this.handleItemClick}
-        />
+      <Menu horizontal="true">
+        {menuItems}
       </Menu>
     )
   }
+}
+
+const mapStateToProps = state => {
+  return { active: state.active };
+}
+
+const Activate = (value) => ({ type: "ACTIVATE", payload: value });
+
+const mapDispatchToProps = dispatch => {
+  return {
+    Activate: (value) => dispatch(Activate(value))
+  };
+}
+
+const MenuVideo = connect(mapStateToProps,mapDispatchToProps)(MenuVideoTemp);
+
+export default MenuVideo;
 
   // state = { activeItem: 'account' }
   //
@@ -63,6 +75,3 @@ class MenuVideo extends Component {
   //     </Menu>
   //   )
   // }
-}
-
-export default MenuVideo;

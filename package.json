@@ -7,7 +7,10 @@
     "react-dom": "^16.4.2",
     "react-scripts": "1.1.4",
     "semantic-ui-react": "^0.82.2",
-    "semantic-ui-css": "^2.3.3"
+    "semantic-ui-css": "^2.3.3",
+    "redux": "4.0.0",
+    "react-redux": "4.4.9",
+    "redux-mock-store": "1.5.3"
   },
   "scripts": {
     "start": "react-scripts start",
