@@ -11,7 +11,10 @@
     "redux": "4.0.0",
     "react-redux": "4.4.9",
     "redux-mock-store": "1.5.3",
-    "react-addons-test-utils": "15.6.2"
+    "react-addons-test-utils": "15.6.2",
+    "enzyme": "3.5.1",
+    "enzyme-adapter-react-16": "1.1.1",
+    "jest-fetch-mock": "1.6.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -23,5 +26,17 @@
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0"
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:8080",
+  "description": "A sample project from scratch of a Videorent store managing app 1. First Notes <img src=note1.png>",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robertoarcomano/Videorent.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robertoarcomano/Videorent/issues"
+  },
+  "homepage": "https://github.com/robertoarcomano/Videorent#readme"
 }
