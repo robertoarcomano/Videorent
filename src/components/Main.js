@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import store from '../store/index';
 import '../css/App.css';
 import { connect } from 'react-redux';
+import * as LABELS from '../constants/labels';
+import Articles from './Articles';
+import Customers from './Customers';
 
 class MainTemp extends Component {
   constructor(props) {
@@ -9,9 +12,20 @@ class MainTemp extends Component {
   }
 
   render() {
+    var getChild;
+    switch (this.props.active) {
+    case LABELS.ARTICLES:
+      getChild = (<Articles/>);
+      break;
+    case LABELS.CUSTOMERS:
+      getChild = (<Customers/>);
+      break;
+    default:
+      getChild = (<p>{this.props.active}</p>);
+    }
     return (
       <div className="App">
-        <p>{this.props.active}</p>
+        {getChild}
       </div>
     );
   }

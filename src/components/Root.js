@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import 'semantic-ui-css/semantic.min.css';
 import { Dropdown, Menu } from 'semantic-ui-react'
 import MenuVideo from './MenuVideo';
 import Main from './Main';

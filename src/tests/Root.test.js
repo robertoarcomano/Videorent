@@ -8,7 +8,7 @@ import * as LABELS from '../constants/labels';
 import store from '../store/index';
 import { Provider } from "react-redux";
 
-describe('Root tests: ', () => {
+xdescribe('Root tests: ', () => {
   var rootWrapper;
   beforeEach( () => {
     rootWrapper = mount(
