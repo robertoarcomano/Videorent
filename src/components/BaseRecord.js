@@ -4,14 +4,58 @@ import { Search, Header, Table, HeaderCell, Row, Cell, Label, Button, Grid, Colu
 import * as LABELS from '../constants/labels';
 
 export class BaseRecord extends Component {
+  resetNewRecord() {
+    this.props.fieldsList.forEach( field => this.newRecord[field] = "")
+  }
+
   constructor(props) {
     super(props);
+    this.newRecord = {}
+    this.addRecord = this.addRecord.bind(this);
+    this.resetNewRecord = this.resetNewRecord.bind(this);
+    this.showNew = this.showNew.bind(this);
+    this.hideNew = this.hideNew.bind(this);
+    this.resetNewRecord();
+    this.state = {
+      newOpen: false
+    };
+  }
+
+  showNew() {
+    this.setState({ newOpen: true })
+  }
+
+  hideNew() {
+    this.setState({ newOpen: false })
+  }
+
+  addRecord(e) {
+    console.log("e: " + e.type)
+
+    this.props.newHandler(Object.assign({}, this.newRecord))
+    this.resetNewRecord();
+    this.hideNew()
   }
 
   render() {
-    const showValues = this.props.valuesList.map( label =>
-      <Table.Row key={label}>
-        <Table.Cell>{label}</Table.Cell>
+    const getNewFields = this.props.fieldsList.map( label =>
+      <Grid.Row key={label} columns={2}>
+        <Grid.Column width={3}><Label>{label}</Label></Grid.Column>
+        <Grid.Column><Input onChange={e => this.newRecord[label] = e.target.value}/></Grid.Column>
+      </Grid.Row>
+    );
+
+    const fieldsList = this.props.fieldsList.map( label =>
+      <Table.HeaderCell key={label}>{label}</Table.HeaderCell>
+    );
+    const getTableCells = record =>
+      this.props.fieldsList.map( field =>
+        <Table.Cell key={record[field]}>{record[field]}</Table.Cell>
+      )
+
+    const showValues = this.props.valuesList.map( record =>
+      <Table.Row key={record[this.props.fieldsList[0]]}>
+        {getTableCells(record)}
       </Table.Row>
     );
     return (
@@ -32,32 +76,25 @@ export class BaseRecord extends Component {
             />
           </Grid.Column>
           <Grid.Column>
-            <Button onClick={this.props.newHandler}>Add</Button>
             <Popup
-              trigger={<Button icon>Add Complex</Button>}
+              trigger={<Button icon onClick={this.showNew}>Add</Button>}
               content={
                 <Grid
                   style={{ width: 300 }}
                   textAlign='left'
                   float='left'>
                   <Grid.Row columns={1}>
-                    <Grid.Column textAlign='center'><Label size="huge">New</Label></Grid.Column>
+                    <Grid.Column textAlign='center'><Label size="huge">New {this.props.title}</Label></Grid.Column>
                   </Grid.Row>
                   <Divider/>
+                  {getNewFields}
                   <Grid.Row columns={2}>
-                    <Grid.Column width={3}><Label>Name</Label></Grid.Column>
-                    <Grid.Column><Input/></Grid.Column>
-                  </Grid.Row>
-                  <Grid.Row columns={2}>
-                    <Grid.Column width={3}><Label>Price</Label></Grid.Column>
-                    <Grid.Column><Input/></Grid.Column>
-                  </Grid.Row>
-                  <Grid.Row columns={2}>
-                    <Grid.Column textAlign='center'><Button>Confirm</Button></Grid.Column>
-                    <Grid.Column textAlign='center'><Button>Cancel</Button></Grid.Column>
+                    <Grid.Column textAlign='center'><Button onClick={e => this.addRecord(e)}>Confirm</Button></Grid.Column>
+                    <Grid.Column textAlign='center'><Button onClick={this.hideNew}>Cancel</Button></Grid.Column>
                   </Grid.Row>
                 </Grid>
               }
+              open={ this.state.newOpen }
               on='click'
               hideOnScroll
             />
@@ -67,7 +104,7 @@ export class BaseRecord extends Component {
         <Table celled>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>{this.props.fieldsList}</Table.HeaderCell>
+              {fieldsList}
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -75,7 +112,7 @@ export class BaseRecord extends Component {
           </Table.Body>
           <Table.Footer>
             <Table.Row>
-              <Table.HeaderCell>
+              <Table.HeaderCell colSpan="2">
                 <Header as="h5">Count: {this.props.valuesList.length}</Header>
               </Table.HeaderCell>
             </Table.Row>

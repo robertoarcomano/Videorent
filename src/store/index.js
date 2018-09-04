@@ -3,7 +3,10 @@ import { createStore } from 'redux';
 // Default state
 const initialState = {
   active: "",
-  articles: ["first", "second"],
+  articles: [
+    { name: "first", price: 10 } ,
+    { name: "second", price: 20 }
+  ],
   customers: ["first", "second"],
   filters: {
     article: "",
@@ -23,9 +26,10 @@ const reducer = (state = initialState, action) => {
       console.log("store: old_filter_customer: " + state.filters.customer)
       return Object.assign({}, state, { filters: { customer: action.payload, article: state.filters.article }})
     case "ADD_ARTICLE":
+      console.log("ADD_ARTICLE: " + JSON.stringify(action.payload))
       const filterArticle = state.filters.article;
       return Object.assign({}, state, {
-        articles: state.articles.concat(filterArticle),
+        articles: state.articles.concat(action.payload),
         filters: {
           article: "",
           customer: state.filters.customer

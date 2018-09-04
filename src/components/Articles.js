@@ -10,6 +10,7 @@ export class ArticlesTemp extends Component {
   constructor(props) {
     super(props);
     this.search = this.search.bind(this);
+    this.fieldList = ["name","price"];
   }
 
   search(e, { value }) {
@@ -19,14 +20,14 @@ export class ArticlesTemp extends Component {
   }
 
   render() {
-    const valuesList = this.props.articles.filter( item => item.indexOf(this.props.filters.article) != -1)
+    const valuesList = this.props.articles.filter( item => item.name.indexOf(this.props.filters.article) != -1)
     return (
       <BaseRecord
         title={LABELS.ARTICLES}
         searchHandler={this.search}
         searchValue={this.props.filters.article}
         newHandler={this.props.AddArticle}
-        fieldsList="Name"
+        fieldsList={this.fieldList}
         valuesList={valuesList}
       />
     )
@@ -37,7 +38,7 @@ const mapStateToProps = state => {
   return { articles: state.articles, filters: state.filters };
 }
 
-const AddArticle = (name) => ({ type: "ADD_ARTICLE", payload: name });
+const AddArticle = (article) => ({ type: "ADD_ARTICLE", payload: article });
 const SetFilterArticle = (name) => ({ type: "SET_FILTER_ARTICLE", payload: name });
 
 const mapDispatchToProps = dispatch => {

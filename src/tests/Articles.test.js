@@ -76,4 +76,28 @@ describe('Articles: ', () => {
     // 7. Check Articles count
     expect(rootWrapper.find("h5").text()).toBe("Count: 3")
   });
+
+  it('New Add Article: ', () => {
+    // 1. Use mount
+    rootWrapper = mountWrapper();
+    AddArticle.mockClear();
+    // 2. Checks call to AddArticle be 0
+    expect(AddArticle.mock.calls.length).toBe(0);
+    // 3.1. Write indirectly new article input field to "3"
+    rootWrapper.setProps( { filters: { article: { name: "third", price: 20 } } } ).update();
+    // 3.2. Click Add Button
+    rootWrapper.find("Button").at(0).simulate("click");
+    // 4. Checks call to AddArticle be 1
+    expect(AddArticle.mock.calls.length).toBe(1);
+    rootWrapper.update();
+    // 5. Read articles, manually add "3" article and set props
+    let tmpArticles = rootWrapper.prop("articles");
+    tmpArticles.push("3");
+    rootWrapper.setProps( { articles: tmpArticles } ).update();
+    // 6. Reset new article input field to ""
+    rootWrapper.setProps( { filters: { article: "" } } ).update();
+    // 7. Check Articles count
+    expect(rootWrapper.find("h5").text()).toBe("Count: 3")
+  });
+
 });
