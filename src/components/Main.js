@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import store from '../store/index';
 import '../css/App.css';
 import { connect } from 'react-redux';
 import * as LABELS from '../constants/labels';
@@ -7,10 +6,6 @@ import Articles from './Articles';
 import Customers from './Customers';
 
 class MainTemp extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     var getChild;
     switch (this.props.active) {

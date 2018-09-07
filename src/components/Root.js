@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Dropdown, Menu } from 'semantic-ui-react'
 import MenuVideo from './MenuVideo';
 import Main from './Main';
 
 class Root extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div id="subRoot">

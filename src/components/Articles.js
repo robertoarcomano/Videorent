@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import store from '../store/index';
 import { connect } from 'react-redux';
-import { Search, Header, Table, HeaderCell, Row, Cell, Label, Button, Grid, Column, Container, Menu, Divider, Segment, Image } from 'semantic-ui-react'
-// Form, Field, Group, Input, Select, Label, Radio, TextArea, Checkbox, Button
 import * as LABELS from '../constants/labels';
 import BaseRecord from './BaseRecord'
 
@@ -10,7 +7,7 @@ export class ArticlesTemp extends Component {
   constructor(props) {
     super(props);
     this.search = this.search.bind(this);
-    this.fieldList = ["name","price"];
+    this.fieldList = ["name","type","year","category","price"];
   }
 
   search(e, { value }) {
@@ -20,13 +17,15 @@ export class ArticlesTemp extends Component {
   }
 
   render() {
-    const valuesList = this.props.articles.filter( item => item.name.indexOf(this.props.filters.article) != -1)
+    const valuesList = this.props.articles.filter( item => item.name.indexOf(this.props.filters.article) !== -1)
     return (
       <BaseRecord
         title={LABELS.ARTICLES}
         searchHandler={this.search}
         searchValue={this.props.filters.article}
         newHandler={this.props.AddArticle}
+        updateHandler={this.props.UpdateArticle}
+        deleteHandler={this.props.DeleteArticle}
         fieldsList={this.fieldList}
         valuesList={valuesList}
       />
@@ -39,11 +38,15 @@ const mapStateToProps = state => {
 }
 
 const AddArticle = (article) => ({ type: "ADD_ARTICLE", payload: article });
+const UpdateArticle = (article) => ({ type: "UPDATE_ARTICLE", payload: article });
+const DeleteArticle = (article) => ({ type: "DELETE_ARTICLE", payload: article });
 const SetFilterArticle = (name) => ({ type: "SET_FILTER_ARTICLE", payload: name });
 
 const mapDispatchToProps = dispatch => {
   return {
-    AddArticle: (name) => dispatch(AddArticle(name)),
+    AddArticle: (article) => dispatch(AddArticle(article)),
+    UpdateArticle: (article) => dispatch(UpdateArticle(article)),
+    DeleteArticle: (article) => dispatch(DeleteArticle(article)),
     SetFilterArticle: (name) => dispatch(SetFilterArticle(name))
   };
 }

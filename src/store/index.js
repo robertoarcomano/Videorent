@@ -4,10 +4,13 @@ import { createStore } from 'redux';
 const initialState = {
   active: "",
   articles: [
-    { name: "first", price: 10 } ,
-    { name: "second", price: 20 }
+    { name: "John Wick", type: "DVD", year: "2014", category: "Action", price: 3 } ,
+    { name: "John Wick 2", type: "BlueRay", year: "2017", category: "Action", price: 4 }
   ],
-  customers: ["first", "second"],
+  customers: [
+    { name: "first", cell: "34012345678" } ,
+    { name: "second", cell: "34712345678" }
+  ],
   filters: {
     article: "",
     customer: ""
@@ -26,8 +29,6 @@ const reducer = (state = initialState, action) => {
       console.log("store: old_filter_customer: " + state.filters.customer)
       return Object.assign({}, state, { filters: { customer: action.payload, article: state.filters.article }})
     case "ADD_ARTICLE":
-      console.log("ADD_ARTICLE: " + JSON.stringify(action.payload))
-      const filterArticle = state.filters.article;
       return Object.assign({}, state, {
         articles: state.articles.concat(action.payload),
         filters: {
@@ -35,10 +36,49 @@ const reducer = (state = initialState, action) => {
           customer: state.filters.customer
         }
       });
-    case "ADD_CUSTOMER":
-      const filterCustomer = state.filters.customer;
+    case "UPDATE_ARTICLE":
       return Object.assign({}, state, {
-        customers: state.customers.concat(filterCustomer),
+        articles: state.articles.map( article => {
+          if (article.name === action.payload.name)
+            article = action.payload;
+          return article;
+        }),
+        filters: {
+          article: "",
+          customer: state.filters.customer
+        }
+      });
+    case "DELETE_ARTICLE":
+      return Object.assign({}, state, {
+        articles: state.articles.filter( item => item.name !== action.payload.name),
+        filters: {
+          article: "",
+          customer: state.filters.customer
+        }
+      });
+    case "ADD_CUSTOMER":
+      return Object.assign({}, state, {
+        customers: state.customers.concat(action.payload),
+        filters: {
+          article: state.filters.article,
+          customer: ""
+        }
+      });
+    case "UPDATE_CUSTOMER":
+      return Object.assign({}, state, {
+        customers: state.customers.map( customer => {
+          if (customer.name === action.payload.name)
+            customer = action.payload;
+          return customer;
+        }),
+        filters: {
+          customer: "",
+          article: state.filters.article
+        }
+      });
+    case "DELETE_CUSTOMER":
+      return Object.assign({}, state, {
+        customers: state.customers.filter( item => item.name !== action.payload.name),
         filters: {
           customer: "",
           article: state.filters.article
