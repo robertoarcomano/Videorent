@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as LABELS from '../constants/labels';
 import Articles from './Articles';
 import Customers from './Customers';
+import Rentals from './Rentals';
 
 class MainTemp extends Component {
   render() {
@@ -14,6 +15,9 @@ class MainTemp extends Component {
       break;
     case LABELS.CUSTOMERS:
       getChild = (<Customers/>);
+      break;
+    case LABELS.RENTALS:
+      getChild = (<Rentals/>);
       break;
     default:
       getChild = (<p>{this.props.active}</p>);

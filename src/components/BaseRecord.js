@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Search, Header, Table, Label, Button, Grid, Container, Divider, Popup, Input } from 'semantic-ui-react'
-import { capitalize } from '../constants/utils.js'
+import { table } from './table'
 
 export class BaseRecord extends Component {
   updateRecord(record) {
@@ -125,42 +125,6 @@ export class BaseRecord extends Component {
       />
     )
 
-    const showFields = this.props.fieldsList.map( label =>
-      <Table.HeaderCell key={label}>{capitalize(label)}</Table.HeaderCell>
-    );
-
-    const showValues = this.props.valuesList.map( record =>
-      <Table.Row key={record[this.props.fieldsList[0]]} onClick={e => this.showEditNew(record)}>
-        { this.props.fieldsList.map( field => <Table.Cell key={record[field]}>{record[field]}</Table.Cell>) }
-      </Table.Row>
-    );
-
-    const showCount = (
-      <Table.HeaderCell colSpan={this.props.fieldsList.length}>
-        <Header as="h5">Count: {this.props.valuesList.length}</Header>
-      </Table.HeaderCell>
-    );
-
-    const table = (
-      <Table basic selectable>
-        <Table.Header>
-          <Table.Row>
-            {showFields}
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
-          {showValues}
-        </Table.Body>
-
-        <Table.Footer>
-          <Table.Row>
-            {showCount}
-          </Table.Row>
-        </Table.Footer>
-      </Table>
-    )
-
     return (
       <Container style={{ marginTop: '3em',width: 600 }} textAlign='left'>
         <Grid columns={1} textAlign='left'>
@@ -175,7 +139,7 @@ export class BaseRecord extends Component {
           </Grid.Column>
         </Grid>
         <Divider/>
-        {table}
+        { table(this.props.fieldsList,this.props.valuesList,this.showEditNew) }
       </Container>
     );
   }
