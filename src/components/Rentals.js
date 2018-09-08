@@ -31,7 +31,7 @@ export class RentalsTemp extends Component {
     );
 
     return (
-      <div>
+      <Container>
         <Header>{LABELS.RENTALS}</Header>
         <Search
           loading={false}
@@ -45,7 +45,7 @@ export class RentalsTemp extends Component {
             this.selectCustomer
           )
         }
-      </div>
+      </Container>
     )
   }
 }

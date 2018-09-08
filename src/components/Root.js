@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import MenuVideo from './MenuVideo';
 import Main from './Main';
+import { Container } from 'semantic-ui-react'
 
 class Root extends Component {
   render() {
     return (
-      <div id="subRoot">
-        <div id="menu">
+      <Container style={{ marginTop: '1em',width: 600 }}>
+        <Container>
           <MenuVideo/>
-        </div>
-        <div id="main">
+        </Container>
+        <Container style={{ marginTop: '1em'}} >
           <Main/>
-        </div>
-      </div>
+        </Container>
+      </Container>
     )
   }
 }

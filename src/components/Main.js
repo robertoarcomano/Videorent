@@ -5,6 +5,7 @@ import * as LABELS from '../constants/labels';
 import Articles from './Articles';
 import Customers from './Customers';
 import Rentals from './Rentals';
+import { Container } from 'semantic-ui-react'
 
 class MainTemp extends Component {
   render() {
@@ -23,9 +24,9 @@ class MainTemp extends Component {
       getChild = (<p>{this.props.active}</p>);
     }
     return (
-      <div className="App">
+      <Container>
         {getChild}
-      </div>
+      </Container>
     );
   }
 }

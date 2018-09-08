@@ -124,22 +124,21 @@ export class BaseRecord extends Component {
         verticalOffset={100}
       />
     )
-
+ // style={{ marginTop: '3em',width: 600 }} textAlign='left'
     return (
-      <Container style={{ marginTop: '3em',width: 600 }} textAlign='left'>
-        <Grid columns={1} textAlign='left'>
-          <Grid.Column>
-            {title}
-          </Grid.Column>
-          <Grid.Column>
+      <Container>
+      {title}
+      <Grid columns={2}>
+        <Grid.Row>
+          <Grid.Column textAlign='left'>
             {search}
           </Grid.Column>
-          <Grid.Column>
+          <Grid.Column textAlign='left'>
             {popup}
           </Grid.Column>
-        </Grid>
-        <Divider/>
-        { table(this.props.fieldsList,this.props.valuesList,this.showEditNew) }
+        </Grid.Row>
+      </Grid>
+      { table(this.props.fieldsList,this.props.valuesList,this.showEditNew) }
       </Container>
     );
   }
