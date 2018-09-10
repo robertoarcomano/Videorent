@@ -5,15 +5,22 @@ import { now } from '../constants/utils.js'
 const initialState = {
   active: "",
   articles: [
-    { name: "John Wick", type: "DVD", year: "2014", category: "Action", price: 3 } ,
-    { name: "John Wick 2", type: "BlueRay", year: "2017", category: "Action", price: 4 }
+    { name: "John Wick", type: "BlueRay", year: "2014", category: "Action", price: 3 } ,
+    { name: "Equalizer", type: "BlueRay", year: "2014", category: "Action", price: 4 },
+    { name: "Terminator", type: "VHS", year: "1984", category: "Action", price: 4 },
+    { name: "Taken", type: "BlueRay", year: "2008", category: "Action", price: 4 },
+    { name: "Matrix", type: "DVD", year: "1999", category: "Action", price: 4 },
+    { name: "Bourne Identity", type: "DVD", year: "2002", category: "Action", price: 4 },
+    { name: "Equilibrium", type: "DVD", year: "2001", category: "Action", price: 4 }
   ],
   customers: [
-    { name: "first", cell: "34012345678" } ,
-    { name: "second", cell: "34712345678" }
+    { name: "Robert", cell: "3280000000" },
+    { name: "Jack",   cell: "3290000000" },
+    { name: "Michael", cell: "3300000000" }
   ],
   rentals: [
-    { customer: "first", articles: [{name: "John Wick", date: "10/09/2018"},{name: "John Wick 2", date: "09/09/2018"}] }
+    { customer: "Robert", articles: [{name: "John Wick", date: "10/09/2018"},{name: "Equalizer", date: "09/09/2018"}] },
+    { customer: "Jack", articles: [{name: "Taken", date: "10/09/2018"},{name: "Bourne Identity", date: "09/09/2018"},{name: "Terminator", date: "09/09/2018"}] }
   ],
   filters: {
     article: "",
@@ -98,7 +105,7 @@ const reducer = (state = initialState, action) => {
         rentals: state.rentals.map(
           rental => {
             console.log("rental: " + JSON.stringify(rental))
-            if (rental.customer == state.customer.name)
+            if (rental.customer === state.customer.name)
               rental.articles = rental.articles.filter( article => article.name !== action.payload)
             return rental;
           }
@@ -118,7 +125,7 @@ const reducer = (state = initialState, action) => {
         tmpState.rentals = tmpState.rentals.map(
           rental => {
             console.log("rental: " + JSON.stringify(rental))
-            if (rental.customer == tmpState.customer.name)
+            if (rental.customer === tmpState.customer.name)
               rental.articles = rental.articles.concat({ name: action.payload,date: now() })
             return rental;
           }

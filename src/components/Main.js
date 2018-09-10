@@ -5,6 +5,7 @@ import * as LABELS from '../constants/labels';
 import Articles from './Articles';
 import Customers from './Customers';
 import Rentals from './Rentals';
+import ActiveRentals from './ActiveRentals';
 import { Container } from 'semantic-ui-react'
 
 class MainTemp extends Component {
@@ -19,6 +20,9 @@ class MainTemp extends Component {
       break;
     case LABELS.RENTALS:
       getChild = (<Rentals/>);
+      break;
+    case LABELS.ACTIVE_RENTALS:
+      getChild = (<ActiveRentals/>);
       break;
     default:
       getChild = (<p>{this.props.active}</p>);
