@@ -1,4 +1,5 @@
 import { createStore } from 'redux';
+import { now } from '../constants/utils.js'
 
 // Default state
 const initialState = {
@@ -11,10 +12,14 @@ const initialState = {
     { name: "first", cell: "34012345678" } ,
     { name: "second", cell: "34712345678" }
   ],
+  rentals: [
+    { customer: "first", articles: [{name: "John Wick", date: "10/09/2018"},{name: "John Wick 2", date: "09/09/2018"}] }
+  ],
   filters: {
     article: "",
     customer: ""
-  }
+  },
+  customer: ""
 }
 
 const reducer = (state = initialState, action) => {
@@ -84,6 +89,41 @@ const reducer = (state = initialState, action) => {
           article: state.filters.article
         }
       });
+    case "SET_CUSTOMER":
+      return Object.assign({}, state, {
+        customer: action.payload
+      });
+    case "RETURN_ARTICLE":
+      return Object.assign({}, state, {
+        rentals: state.rentals.map(
+          rental => {
+            console.log("rental: " + JSON.stringify(rental))
+            if (rental.customer == state.customer.name)
+              rental.articles = rental.articles.filter( article => article.name !== action.payload)
+            return rental;
+          }
+        )
+      });
+    case "RENT_ARTICLE":
+      let tmpState = state;
+      let existCustomer = tmpState.rentals.find( rental => rental.customer === tmpState.customer.name)
+      if (!existCustomer)
+        tmpState.rentals = tmpState.rentals.concat(
+          {
+            customer: tmpState.customer.name,
+            articles: [{ name: action.payload, date: now() }]
+          }
+        )
+      else
+        tmpState.rentals = tmpState.rentals.map(
+          rental => {
+            console.log("rental: " + JSON.stringify(rental))
+            if (rental.customer == tmpState.customer.name)
+              rental.articles = rental.articles.concat({ name: action.payload,date: now() })
+            return rental;
+          }
+        )
+      return Object.assign({}, state, tmpState);
     default:
       return state
   }

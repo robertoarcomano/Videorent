@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Search, Header, Table, Label, Button, Grid, Container, Divider, Popup, Input } from 'semantic-ui-react'
+import { Search, Header, Label, Button, Grid, Container, Divider, Popup, Input } from 'semantic-ui-react'
 import { table } from './table'
 
 export class BaseRecord extends Component {

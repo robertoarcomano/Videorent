@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Search, Header, Table, Label, Button, Grid, Container, Divider, Popup, Input } from 'semantic-ui-react'
+import React from 'react';
+import { Header, Table } from 'semantic-ui-react'
 import { capitalize } from '../constants/utils.js'
 
 export function table(fields,values,onclick) {
