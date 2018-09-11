@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as LABELS from '../constants/labels';
-import { Search, Header, Label, Grid, Container, Button, List, Icon, Popup, Modal } from 'semantic-ui-react'
+import { Search, Header, Grid, Container, Button, Modal } from 'semantic-ui-react'
 import { table } from './table'
 
 export class RentalsTemp extends Component {
@@ -11,6 +11,7 @@ export class RentalsTemp extends Component {
       searchValue: ""
     }
     this.search = this.search.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   search(e, { value }) {
@@ -18,6 +19,10 @@ export class RentalsTemp extends Component {
     this.setState({
       searchValue: value
     })
+  }
+
+  onClick(obj) {
+    alert(JSON.stringify(obj))
   }
 
   render() {
@@ -83,7 +88,7 @@ export class RentalsTemp extends Component {
       )
     )
     fieldsList = valuesList.length === 0 ? [] : Object.keys(valuesList[0])
-    onClick = null;
+    onClick = this.onClick;
     onAdd = null;
 
     return (
@@ -102,24 +107,6 @@ const mapStateToProps = state => {
   };
 }
 
-const searchCustomer = (name) => ({ type: "SEARCH_CUSTOMER", payload: name });
-const SetFilterCustomer = (name) => ({ type: "SET_FILTER_CUSTOMER", payload: name });
-const SetCustomer = (record) => ({ type: "SET_CUSTOMER", payload: record });
-const ReturnArticle = (name) => ({ type: "RETURN_ARTICLE", payload: name });
-const SetFilterArticle = (name) => ({ type: "SET_FILTER_ARTICLE", payload: name });
-const RentArticle = (name) => ({ type: "RENT_ARTICLE", payload: name });
-
-const mapDispatchToProps = dispatch => {
-  return {
-    searchCustomer: (name) => dispatch(searchCustomer(name)),
-    SetFilterCustomer: (name) => dispatch(SetFilterCustomer(name)),
-    SetCustomer: (record) => dispatch(SetCustomer(record)),
-    ReturnArticle: (name) => dispatch(ReturnArticle(name)),
-    SetFilterArticle: (name) => dispatch(SetFilterArticle(name)),
-    RentArticle: (name) => dispatch(RentArticle(name))
-  };
-}
-
-const Rentals = connect(mapStateToProps,/*mapDispatchToProps*/null)(RentalsTemp);
+const Rentals = connect(mapStateToProps)(RentalsTemp);
 
 export default Rentals;

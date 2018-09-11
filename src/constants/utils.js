@@ -16,3 +16,15 @@ export const now = () => {
   today = dd + '/' + mm + '/' + yyyy;
   return today
 }
+
+const swapDate = date => {
+  if (date === undefined)
+    return null;
+  var tmpDate = date;
+  return tmpDate.substr(3,2) + "/" + tmpDate.substr(0,2) + "/" + tmpDate.substr(5);
+}
+
+export const calcDelay = (date1, date2) => {
+  var days = (Date.parse(swapDate(date2))-Date.parse(swapDate(date1)))/86400000;
+  return days === 0 ? 1 : days
+}

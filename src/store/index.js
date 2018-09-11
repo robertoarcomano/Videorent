@@ -104,7 +104,6 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         rentals: state.rentals.map(
           rental => {
-            console.log("rental: " + JSON.stringify(rental))
             if (rental.customer === state.customer.name)
               rental.articles = rental.articles.filter( article => article.name !== action.payload)
             return rental;
@@ -124,7 +123,6 @@ const reducer = (state = initialState, action) => {
       else
         tmpState.rentals = tmpState.rentals.map(
           rental => {
-            console.log("rental: " + JSON.stringify(rental))
             if (rental.customer === tmpState.customer.name)
               rental.articles = rental.articles.concat({ name: action.payload,date: now() })
             return rental;

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as LABELS from '../constants/labels';
-import { Search, Header, Label, Grid, Container, Button, List, Icon, Popup, Modal } from 'semantic-ui-react'
+import { Search, Header, Label, Grid, Container, Button, Icon, Modal } from 'semantic-ui-react'
 import { table } from './table'
+import { now, calcDelay } from '../constants/utils.js'
 
 export class RentalsTemp extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ export class RentalsTemp extends Component {
     this.addArticle = this.addArticle.bind(this);
     this.searchArticles = this.searchArticles.bind(this);
     this.selectArticle = this.selectArticle.bind(this);
+    this.cost = this.cost.bind(this);
     this.reset = this.reset.bind(this);
   }
 
@@ -32,6 +34,7 @@ export class RentalsTemp extends Component {
   }
 
   searchCustomers(e, { value }) {
+
     this.props.SetFilterCustomer(value)
   }
 
@@ -43,7 +46,7 @@ export class RentalsTemp extends Component {
   selectRental(record) {
     this.setState({
       isPopupOpen: true,
-      articleSelected: record.name
+      articleSelected: record
     })
   }
 
@@ -56,7 +59,7 @@ export class RentalsTemp extends Component {
   }
 
   okReturn() {
-    this.props.ReturnArticle(this.state.articleSelected)
+    this.props.ReturnArticle(this.state.articleSelected.name)
     this.backToMainPage();
   }
 
@@ -71,6 +74,14 @@ export class RentalsTemp extends Component {
   selectArticle(record) {
     this.props.RentArticle(record.name)
     this.backToMainPage();
+  }
+
+  cost() {
+    let cost = this.props.articles.filter( article => article.name === this.state.articleSelected.name)
+    if (cost.length > 0) {
+      return cost[0].price
+    }
+    return 0
   }
 
   render() {
@@ -105,7 +116,10 @@ export class RentalsTemp extends Component {
         <Grid.Row>
           <Grid.Column textAlign='center'>
           <Modal size="mini" open={this.state.isPopupOpen}>
-            <Modal.Header>Return {this.state.articleSelected}?</Modal.Header>
+            <Modal.Header>Return {this.state.articleSelected.name}?</Modal.Header>
+            <Modal.Content>
+              "{this.props.customer.name}" has to pay  x   {this.cost()} x {calcDelay(this.state.articleSelected.date,now())} = {calcDelay(this.state.articleSelected.date,now())*this.cost()}
+            </Modal.Content>
             <Modal.Actions>
               <Button negative onClick={this.backToMainPage}>No</Button>
               <Button positive icon='checkmark' labelPosition='right' content='Yes' onClick={this.okReturn} />
