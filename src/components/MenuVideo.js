@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Menu } from 'semantic-ui-react'
 import * as LABELS from '../constants/labels';
 import { connect } from 'react-redux';
-import 'semantic-ui-css/semantic.min.css';
+import '../css/semantic.css';
 
 export class MenuVideoTemp extends Component {
   render() {
