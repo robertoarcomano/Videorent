@@ -11,26 +11,9 @@ import { Container } from 'semantic-ui-react'
 class MainTemp extends Component {
   render() {
     var getChild;
-    switch (this.props.active) {
-    case LABELS.ARTICLES:
-      getChild = (<Articles/>);
-      break;
-    case LABELS.CUSTOMERS:
-      getChild = (<Customers/>);
-      break;
-    case LABELS.RENTALS:
-      getChild = (<Rentals/>);
-      break;
-    case LABELS.ACTIVE_RENTALS:
-      getChild = (<ActiveRentals/>);
-      break;
-    default:
-      getChild = (<p>{this.props.active}</p>);
-    }
+    getChild = (<Customers/>);
     return (
-      <Container>
-        {getChild}
-      </Container>
+      <Articles/>
     );
   }
 }

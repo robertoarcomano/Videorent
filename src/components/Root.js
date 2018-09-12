@@ -6,14 +6,7 @@ import { Container } from 'semantic-ui-react'
 class Root extends Component {
   render() {
     return (
-      <Container style={{ marginTop: '1em',width: 600 }}>
-        <Container>
-          <MenuVideo/>
-        </Container>
-        <Container style={{ marginTop: '1em'}} >
-          <Main/>
-        </Container>
-      </Container>
+      <Main/>
     )
   }
 }

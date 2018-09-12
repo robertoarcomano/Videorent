@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as LABELS from '../constants/labels';
 import BaseRecord from './BaseRecord'
+import { table } from './table'
+import { Container } from 'semantic-ui-react'
 
 export class ArticlesTemp extends Component {
   constructor(props) {
@@ -19,16 +21,9 @@ export class ArticlesTemp extends Component {
   render() {
     const valuesList = this.props.articles.filter( item => item.name.indexOf(this.props.filters.article) !== -1)
     return (
-      <BaseRecord
-        title={LABELS.ARTICLES}
-        searchHandler={this.search}
-        searchValue={this.props.filters.article}
-        newHandler={this.props.AddArticle}
-        updateHandler={this.props.UpdateArticle}
-        deleteHandler={this.props.DeleteArticle}
-        fieldsList={this.fieldList}
-        valuesList={valuesList}
-      />
+      <p>
+        { table(this.fieldList,valuesList,null) }
+      </p>
     )
   }
 }

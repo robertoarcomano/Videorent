@@ -4,7 +4,7 @@ import { capitalize } from '../constants/utils.js'
 
 export function table(fields,values,onclick) {
   return (
-    <Table basic selectable>
+    <Table collapsing>
       <Table.Header>
         <Table.Row>
           { fields.map( label =>

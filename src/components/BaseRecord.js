@@ -127,18 +127,7 @@ export class BaseRecord extends Component {
  // style={{ marginTop: '3em',width: 600 }} textAlign='left'
     return (
       <Container>
-      {title}
-      <Grid columns={2}>
-        <Grid.Row>
-          <Grid.Column textAlign='left'>
-            {search}
-          </Grid.Column>
-          <Grid.Column textAlign='left'>
-            {popup}
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-      { table(this.props.fieldsList,this.props.valuesList,this.showEditNew) }
+        { table(this.props.fieldsList,this.props.valuesList,this.showEditNew) }
       </Container>
     );
   }
