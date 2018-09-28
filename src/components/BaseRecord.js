@@ -33,40 +33,30 @@ export class BaseRecord extends Component {
   }
 
   backTo(page = this.state.pages[this.state.pages.length - 2]) {
-    this.setState(
-      { pages:
-          this.state.pages.slice(0,this.state.pages.indexOf(page)+1)
-      }
-    )
+    this.setState( { pages: this.state.pages.slice(0,this.state.pages.indexOf(page)+1) } )
   }
 
   updateRecord(record,pageToAdd=null) {
-    var tmpState = this.state;
-    tmpState.record = record;
-    if (pageToAdd !== null) {
-      tmpState.pages = tmpState.pages.concat(pageToAdd)
-      console.log("pageToAdd: " + pageToAdd)
-      console.log("tmpState.pages: " + tmpState.pages)
-    }
-    console.log("this.state.pages: " + this.state.pages)
-    console.log("tmpState.pages: " + tmpState.pages)
-    this.setState( { record: tmpState.record, pages: tmpState.pages } )
+    const pages = (pageToAdd === null ? this.state.pages : this.state.pages.concat(pageToAdd))
+    this.setState( { record: record, pages: pages } )
   }
 
   goToAdd() {
     var tmpRecord = {}
-    this.props.fieldsList.forEach( field => tmpRecord[field] = "" )
+    this.props.fieldsList.map( (field) => {tmpRecord[field]= ""})
     this.updateRecord(tmpRecord,LABELS.NEW)
   }
 
   goToEdit(key) {
     var tmpRecord = {}
-    this.props.valuesList.filter( item => JSON.stringify(item) === JSON.stringify(key)).forEach( item => tmpRecord = Object.assign({}, item) );
+    this.props.valuesList
+      .filter(item => JSON.stringify(item) === JSON.stringify(key))
+      .forEach(item => tmpRecord = Object.assign({}, item));
     this.updateRecord(tmpRecord,LABELS.EDIT);
   }
 
   onChangeRecord(name, value) {
-    var tmpRecord = this.state.record;
+    var tmpRecord = this.state.record
     tmpRecord[name] = value;
     this.updateRecord(tmpRecord);
   }
@@ -141,7 +131,7 @@ export class BaseRecord extends Component {
     )
 
     var pages = new Array();
-    pages[LABELS.MAIN_PAGE ] = mainPage;
+    pages[LABELS.MAIN_PAGE] = mainPage;
     pages[LABELS.EDIT] = editRecord;
     pages[LABELS.NEW] = editRecord;
 
