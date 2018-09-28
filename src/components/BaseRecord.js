@@ -1,10 +1,68 @@
 import React, { Component } from 'react';
-import { Search, Header, Label, Button, Grid, Container, Divider, Popup, Input } from 'semantic-ui-react'
-import { table } from './table'
+import { Search, Header, Label, Button, Grid, Container, Divider, Popup, Input } from 'semantic-ui-react';
+import { table } from './table';
+import { SubTitle } from './SubTitle';
+import * as LABELS from '../constants/labels';
+import  '../constants/labels';
 
 export class BaseRecord extends Component {
-  updateRecord(record) {
-    this.setState({ isPopupOpen: this.state.isPopupOpen, record: record } )
+  constructor(props) {
+    super(props);
+    this.confirmRecord = this.confirmRecord.bind(this);
+    this.deleteRecord = this.deleteRecord.bind(this);
+    this.onChangeRecord = this.onChangeRecord.bind(this);
+    this.updateRecord = this.updateRecord.bind(this);
+    this.goToAdd = this.goToAdd.bind(this);
+    this.goToEdit = this.goToEdit.bind(this);
+    this.getPage = this.getPage.bind(this);
+    this.backTo = this.backTo.bind(this);
+    this.isNew = this.isNew.bind(this);
+    this.state = {
+      page: LABELS.MAIN_PAGE,
+      pages: [ LABELS.MAIN_PAGE ],
+      record: {}
+    };
+  }
+
+  isNew() {
+    return this.getPage() === LABELS.NEW
+  }
+
+  getPage() {
+    return this.state.pages[this.state.pages.length-1]
+  }
+
+  backTo(page = this.state.pages[this.state.pages.length - 2]) {
+    this.setState(
+      { pages:
+          this.state.pages.slice(0,this.state.pages.indexOf(page)+1)
+      }
+    )
+  }
+
+  updateRecord(record,pageToAdd=null) {
+    var tmpState = this.state;
+    tmpState.record = record;
+    if (pageToAdd !== null) {
+      tmpState.pages = tmpState.pages.concat(pageToAdd)
+      console.log("pageToAdd: " + pageToAdd)
+      console.log("tmpState.pages: " + tmpState.pages)
+    }
+    console.log("this.state.pages: " + this.state.pages)
+    console.log("tmpState.pages: " + tmpState.pages)
+    this.setState( { record: tmpState.record, pages: tmpState.pages } )
+  }
+
+  goToAdd() {
+    var tmpRecord = {}
+    this.props.fieldsList.forEach( field => tmpRecord[field] = "" )
+    this.updateRecord(tmpRecord,LABELS.NEW)
+  }
+
+  goToEdit(key) {
+    var tmpRecord = {}
+    this.props.valuesList.filter( item => JSON.stringify(item) === JSON.stringify(key)).forEach( item => tmpRecord = Object.assign({}, item) );
+    this.updateRecord(tmpRecord,LABELS.EDIT);
   }
 
   onChangeRecord(name, value) {
@@ -13,68 +71,20 @@ export class BaseRecord extends Component {
     this.updateRecord(tmpRecord);
   }
 
-  resetEditingRecord() {
-    var tmpRecord = {}
-    this.props.fieldsList.forEach( field => tmpRecord[field] = "" )
-    this.updateRecord(tmpRecord);
-  }
-
-  loadEditingRecord(key) {
-    var tmpRecord = {}
-    this.props.valuesList.filter( item => JSON.stringify(item) === JSON.stringify(key)).forEach( item => tmpRecord = Object.assign({}, item) );
-    this.updateRecord(tmpRecord);
-  }
-
-  constructor(props) {
-    super(props);
-    this.confirmRecord = this.confirmRecord.bind(this);
-    this.deleteRecord = this.deleteRecord.bind(this);
-    this.loadEditingRecord = this.loadEditingRecord.bind(this);
-    this.resetEditingRecord = this.resetEditingRecord.bind(this);
-    this.showEditNew = this.showEditNew.bind(this);
-    this.hideEditNew = this.hideEditNew.bind(this);
-    this.onChangeRecord = this.onChangeRecord.bind(this);
-    this.updateRecord = this.updateRecord.bind(this);
-    this.state = {
-      isPopupOpen: false,
-      record: {},
-      isNew: true
-    };
-  }
-
-  showEditNew(key) {
-    this.resetEditingRecord()
-    let isNew = (key !== undefined) ? false : true
-    if (key !== undefined) {
-      this.loadEditingRecord(key)
-    }
-    this.setState({ isPopupOpen: true, isNew: isNew })
-  }
-
-  hideEditNew() {
-    this.setState({ isPopupOpen: false })
-  }
-
-  confirmRecord(e) {
-    if (this.state.isNew)
+  confirmRecord() {
+    if (this.isNew())
       this.props.newHandler(Object.assign({}, this.state.record))
     else
       this.props.updateHandler(Object.assign({}, this.state.record))
-    this.resetEditingRecord();
-    this.hideEditNew()
+    this.backTo()
   }
 
-  deleteRecord(e) {
+  deleteRecord() {
     this.props.deleteHandler(Object.assign({}, this.state.record))
-    this.resetEditingRecord();
-    this.hideEditNew()
+    this.backTo()
   }
 
   render() {
-    const title = (
-      <Header>{this.props.title}</Header>
-    )
-
     const search = (
       <Search
         loading={false}
@@ -84,61 +94,68 @@ export class BaseRecord extends Component {
       />
     )
 
-    const popupTitle = (
-      <Grid.Column textAlign='center'><Label size="huge">{this.state.isNew?"New":"Update"} {this.props.title}</Label></Grid.Column>
-    )
-
     const popupFields = this.props.fieldsList.map( (label,index) =>
       <Grid.Row key={label} columns={2}>
         <Grid.Column width={3}><Label>{label}</Label></Grid.Column>
-        <Grid.Column><Input readOnly={ (!this.state.isNew && index === 0) ? true : false } onChange={e => this.onChangeRecord(label,e.target.value)} value={this.state.record[label]}/></Grid.Column>
+        <Grid.Column><Input readOnly={ (!this.isNew() && index === 0) ? true : false } onChange={e => this.onChangeRecord(label,e.target.value)} value={this.state.record[label]}/></Grid.Column>
       </Grid.Row>
     );
 
     const popupButtons = (
       <Grid.Row columns={3}>
-        <Grid.Column textAlign='center'><Button onClick={e => this.confirmRecord(e)}>Confirm</Button></Grid.Column>
-        <Grid.Column textAlign='center'><Button onClick={e => this.deleteRecord(e)}>Delete</Button></Grid.Column>
-        <Grid.Column textAlign='center'><Button onClick={this.hideEditNew}>Cancel</Button></Grid.Column>
+        <Grid.Column textAlign='center'><Button onClick={e => this.confirmRecord()}>Confirm</Button></Grid.Column>
+          <Grid.Column textAlign='center'>
+            { this.getPage() == LABELS.EDIT ? (<Button onClick={e => this.deleteRecord()}>Delete</Button>) : "" }
+          </Grid.Column>
+        <Grid.Column textAlign='center'><Button onClick={e => this.backTo()}>Cancel</Button></Grid.Column>
       </Grid.Row>
     );
 
-    const popup = (
-      <Popup
-        trigger={<Button icon onClick={e => this.showEditNew()}>Add</Button>}
-        content={
-          <Grid style={{ width: 400 }} textAlign='left' float='left'>
-            <Grid.Row columns={1}>
-              {popupTitle}
-            </Grid.Row>
-            <Divider/>
-            {popupFields}
-            {popupButtons}
-          </Grid>
-        }
-        open={ this.state.isPopupOpen }
-        on='click'
-        hideOnScroll
-        position="right center"
-        size="tiny"
-        verticalOffset={100}
-      />
+    const addButton = (
+      <Button onClick={e => this.goToAdd(e)}>Add</Button>
     )
- // style={{ marginTop: '3em',width: 600 }} textAlign='left'
+
+    const mainPage = (
+      <Container>
+        <Grid columns={2}>
+          <Grid.Row>
+            <Grid.Column textAlign='left'>
+              {search}
+            </Grid.Column>
+            <Grid.Column textAlign='left'>
+              {addButton}
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        { table(this.props.fieldsList,this.props.valuesList,this.goToEdit) }
+      </Container>
+    )
+
+    const editRecord = (
+      <Container>
+        <Grid style={{ width: 400 }} textAlign='left' float='left'>
+          {popupFields}
+          {popupButtons}
+        </Grid>
+      </Container>
+    )
+
+    var pages = new Array();
+    pages[LABELS.MAIN_PAGE ] = mainPage;
+    pages[LABELS.EDIT] = editRecord;
+    pages[LABELS.NEW] = editRecord;
+
+    console.log(this.state.pages)
+
     return (
       <Container>
-      {title}
-      <Grid columns={2}>
-        <Grid.Row>
-          <Grid.Column textAlign='left'>
-            {search}
-          </Grid.Column>
-          <Grid.Column textAlign='left'>
-            {popup}
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-      { table(this.props.fieldsList,this.props.valuesList,this.showEditNew) }
+        <Header textAlign='center'>{this.props.title}</Header>
+        <SubTitle
+          pages={this.state.pages}
+          action={this.backTo}
+        />
+        <br/>
+        { pages[this.getPage()] }
       </Container>
     );
   }

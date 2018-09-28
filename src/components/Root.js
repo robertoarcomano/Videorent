@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MenuVideo from './MenuVideo';
 import Main from './Main';
 import { Container } from 'semantic-ui-react'
+import 'semantic-ui-css/semantic.min.css';
 
 class Root extends Component {
   render() {

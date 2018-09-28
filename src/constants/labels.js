@@ -7,8 +7,11 @@ export const ARTICLE  = "Article" ;
 export const CUSTOMER = "Customer";
 export const RENTAL = "Rental";
 
-export const SELECT_CUSTOMER = "Select Customer";
 export const MAIN_PAGE = "Main Page";
+export const EDIT = "Edit";
+export const NEW = "New";
+
+export const SELECT_CUSTOMER = "Select Customer";
 export const ADD_ARTICLE = "Add Article";
 export const SELECT_ARTICLES = "Select Articles";
 
