@@ -28,3 +28,9 @@ export const calcDelay = (date1, date2) => {
   var days = (Date.parse(swapDate(date2))-Date.parse(swapDate(date1)))/86400000;
   return days === 0 ? 1 : days
 }
+
+const quote = (s="") => "\"" + s + "\"";
+export const arrayToJson = (x,y,index,arr) =>
+  (index === 1) ? ( "{ " + quote(x) + ": " + quote() + ", ").concat(quote(y)) :
+  (index === arr.length-1) ? JSON.parse (( x + ': ' + quote() + ", ").concat(quote(y) + ": " + quote() + " }")) :
+  ( x + ': ' + quote() + ", ").concat(quote(y));

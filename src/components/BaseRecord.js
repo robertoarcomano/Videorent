@@ -4,6 +4,7 @@ import { table } from './table';
 import { SubTitle } from './SubTitle';
 import * as LABELS from '../constants/labels';
 import  '../constants/labels';
+import { arrayToJson } from '../constants/utils.js'
 
 export class BaseRecord extends Component {
   constructor(props) {
@@ -42,22 +43,25 @@ export class BaseRecord extends Component {
   }
 
   goToAdd() {
-    var tmpRecord = {}
-    this.props.fieldsList.map( (field) => {tmpRecord[field]= ""})
-    this.updateRecord(tmpRecord,LABELS.NEW)
+    // Solution #1 => Use string to manipulate JSON
+    // const record = this.props.fieldsList.reduce( (x,y,index,arr) => arrayToJson(x,y,index,arr) )
+
+    // Solution #2 => Use function on object
+    const record = {}
+    record.setValue = function(a,b) {
+      this[a]=b;
+    }
+    this.props.fieldsList.forEach( item => record.setValue(item,""))
+    this.updateRecord(record,LABELS.NEW)
   }
 
   goToEdit(key) {
-    var tmpRecord = {}
-    this.props.valuesList
-      .filter(item => JSON.stringify(item) === JSON.stringify(key))
-      .forEach(item => tmpRecord = Object.assign({}, item));
-    this.updateRecord(tmpRecord,LABELS.EDIT);
+    const record = Object.assign({}, key)
+    this.updateRecord(record,LABELS.EDIT);
   }
 
   onChangeRecord(name, value) {
-    var tmpRecord = this.state.record
-    tmpRecord[name] = value;
+    const tmpRecord = Object.defineProperty(Object.assign({}, this.state.record), name, { value: value });
     this.updateRecord(tmpRecord);
   }
 
@@ -134,8 +138,6 @@ export class BaseRecord extends Component {
     pages[LABELS.MAIN_PAGE] = mainPage;
     pages[LABELS.EDIT] = editRecord;
     pages[LABELS.NEW] = editRecord;
-
-    console.log(this.state.pages)
 
     return (
       <Container>
