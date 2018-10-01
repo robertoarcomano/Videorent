@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Search, Header, Label, Button, Grid, Container, Divider, Popup, Input } from 'semantic-ui-react';
+import { Search, Header, Label, Button, Grid, Container, Input } from 'semantic-ui-react';
 import { table } from './table';
 import { SubTitle } from './SubTitle';
 import * as LABELS from '../constants/labels';
 import  '../constants/labels';
-import { arrayToJson } from '../constants/utils.js'
+import { createJsonFromArrays } from '../constants/utils.js'
 
 export class BaseRecord extends Component {
   constructor(props) {
@@ -43,15 +43,7 @@ export class BaseRecord extends Component {
   }
 
   goToAdd() {
-    // Solution #1 => Use string to manipulate JSON
-    // const record = this.props.fieldsList.reduce( (x,y,index,arr) => arrayToJson(x,y,index,arr) )
-
-    // Solution #2 => Use function on object
-    const record = {}
-    record.setValue = function(a,b) {
-      this[a]=b;
-    }
-    this.props.fieldsList.forEach( item => record.setValue(item,""))
+    const record = createJsonFromArrays(this.props.fieldsList);
     this.updateRecord(record,LABELS.NEW)
   }
 
@@ -99,7 +91,7 @@ export class BaseRecord extends Component {
       <Grid.Row columns={3}>
         <Grid.Column textAlign='center'><Button onClick={e => this.confirmRecord()}>Confirm</Button></Grid.Column>
           <Grid.Column textAlign='center'>
-            { this.getPage() == LABELS.EDIT ? (<Button onClick={e => this.deleteRecord()}>Delete</Button>) : "" }
+            { this.getPage() === LABELS.EDIT ? (<Button onClick={e => this.deleteRecord()}>Delete</Button>) : "" }
           </Grid.Column>
         <Grid.Column textAlign='center'><Button onClick={e => this.backTo()}>Cancel</Button></Grid.Column>
       </Grid.Row>
@@ -134,10 +126,10 @@ export class BaseRecord extends Component {
       </Container>
     )
 
-    var pages = new Array();
-    pages[LABELS.MAIN_PAGE] = mainPage;
-    pages[LABELS.EDIT] = editRecord;
-    pages[LABELS.NEW] = editRecord;
+    const pages = createJsonFromArrays(
+      [LABELS.MAIN_PAGE,LABELS.EDIT,LABELS.NEW],
+      [mainPage,editRecord,editRecord]
+    );
 
     return (
       <Container>

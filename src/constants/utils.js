@@ -29,6 +29,13 @@ export const calcDelay = (date1, date2) => {
   return days === 0 ? 1 : days
 }
 
+export const createJsonFromArrays = (keys,values = keys.map( key => "")) => {
+  const pages = {}
+  keys.forEach( (key,index) => pages[key] = values[index])
+  return pages;
+}
+
+// Alternative Solution to createJsonFromArrays in case of values undefined => Use string to manipulate JSON
 const quote = (s="") => "\"" + s + "\"";
 export const arrayToJson = (x,y,index,arr) =>
   (index === 1) ? ( "{ " + quote(x) + ": " + quote() + ", ").concat(quote(y)) :
