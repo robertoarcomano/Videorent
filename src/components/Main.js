@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../css/App.css';
 import { connect } from 'react-redux';
 import * as LABELS from '../constants/labels';
 import Articles from './Articles';

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu } from 'semantic-ui-react'
+import { Menu, Icon } from 'semantic-ui-react'
 import * as LABELS from '../constants/labels';
 import { connect } from 'react-redux';
 
@@ -13,9 +13,17 @@ export class MenuVideoTemp extends Component {
         active={this.props.active === label}
       />
     )
+    const gitHubUrl = "https://github.com/robertoarcomano/Videorent";
     return (
-      <Menu horizontal="true">
+      <Menu compact >
         {menuItems}
+        <Menu.Item
+          name="Github"
+          key="Github"
+          onClick={ () => window.open(gitHubUrl) }>
+          <Icon name='github' />
+          Source on Github  
+        </Menu.Item>
       </Menu>
     )
   }
