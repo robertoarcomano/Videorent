@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as LABELS from '../constants/labels';
 import BaseRecord from './BaseRecord'
+import { searchNoCase } from '../constants/utils.js'
 
 export class CustomersTemp extends Component {
   constructor(props) {
@@ -15,7 +16,7 @@ export class CustomersTemp extends Component {
   }
 
   render() {
-    const valuesList = this.props.customers.filter( item => item.name.indexOf(this.props.filters.customer) !== -1);
+    const valuesList = this.props.customers.filter( item => searchNoCase(item.name,this.props.filters.customer) );
     return (
       <BaseRecord
         title={LABELS.CUSTOMERS}

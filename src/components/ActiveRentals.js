@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as LABELS from '../constants/labels';
-import { Search, Header, Grid, Container, Button, Modal } from 'semantic-ui-react'
+import { Search, Header, Grid, Container } from 'semantic-ui-react'
 import { table } from './table'
+import { searchNoCase } from '../constants/utils'
 
 export class RentalsTemp extends Component {
   constructor(props) {
@@ -15,7 +16,6 @@ export class RentalsTemp extends Component {
   }
 
   search(e, { value }) {
-    console.log(value)
     this.setState({
       searchValue: value
     })
@@ -26,13 +26,10 @@ export class RentalsTemp extends Component {
   }
 
   render() {
-    const page = (label, searchValue, onSearch, fieldsList, valuesList, onClick, onAdd) => (
+    const page = (searchValue, onSearch, fieldsList, valuesList, onClick) => (
       <Container>
         <Grid.Row>
-          <Grid.Column width={1}>
-            {label}
-          </Grid.Column>
-          <Grid.Column width={1}>
+        <Grid.Column width={1}>
             {searchValue !== null ?
               <Container>
                 <br/>
@@ -53,49 +50,38 @@ export class RentalsTemp extends Component {
             onClick
           )
         }
-        { onAdd !== null ? <Button onClick={onAdd}>Add</Button>:"" }
-        <Grid.Row>
-          <Grid.Column textAlign='center'>
-          <Modal size="mini" open={this.state.isPopupOpen}>
-            <Modal.Header>Return {this.state.articleSelected}?</Modal.Header>
-            <Modal.Actions>
-              <Button negative onClick={this.backToMainPage}>No</Button>
-              <Button positive icon='checkmark' labelPosition='right' content='Yes' onClick={this.okReturn} />
-            </Modal.Actions>
-          </Modal>
-          </Grid.Column>
-        </Grid.Row>
       </Container>
     )
-    let label, searchValue, onSearch, fieldsList, valuesList, onClick, onAdd;
-    label = null;
-    searchValue = this.state.searchValue;
-    onSearch = this.search;
-    valuesList = [];
-    this.props.rentals.forEach( rental =>
-      rental.articles.forEach( article => {
-        if  (
-          (rental.customer.toUpperCase().indexOf(this.state.searchValue.toUpperCase()) !== -1) ||
-          (article.name.toUpperCase().indexOf(this.state.searchValue.toUpperCase()) !== -1)
-        )
-          valuesList.push({
-            n: valuesList.length+1,
+    const searchValue = this.state.searchValue;
+    const onSearch = this.search;
+
+    const valuesList = this.props.rentals
+      .map( rental => rental.articles
+          .filter(article =>
+            searchNoCase(article.name,this.state.searchValue) ||
+            searchNoCase(rental.customer,this.state.searchValue)
+          )
+          .map( article => ({
             customer: rental.customer,
             article: article.name,
             date: article.date
-          })
-        }
+          }))
       )
-    )
-    fieldsList = valuesList.length === 0 ? [] : Object.keys(valuesList[0])
-    onClick = this.onClick;
-    onAdd = null;
+      .reduce( (x,y) => x.concat(y) )
+      .map( (rental,index) => ({
+        n: index + 1,
+        customer: rental.customer,
+        article: rental.article,
+        date: rental.date
+      }))
+    const fieldsList = valuesList.length === 0 ? [] : Object.keys(valuesList[0])
+    const onClick = this.onClick;
 
     return (
       <Container>
         <Header>{LABELS.ACTIVE_RENTALS}</Header>
         <br/>
-        { page(label, searchValue, onSearch, fieldsList, valuesList, onClick,onAdd) }
+        { page(searchValue, onSearch, fieldsList, valuesList, onClick) }
       </Container>
     )
   }

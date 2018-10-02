@@ -35,10 +35,8 @@ const reducer = (state = initialState, action) => {
     case "ACTIVATE":
       return Object.assign({}, state, { active: action.payload});
     case "SET_FILTER_ARTICLE":
-      console.log("store: old_filter_article: " + state.filters.article)
       return Object.assign({}, state, { filters: { article: action.payload, customer: state.filters.customer }})
     case "SET_FILTER_CUSTOMER":
-      console.log("store: old_filter_customer: " + state.filters.customer)
       return Object.assign({}, state, { filters: { customer: action.payload, article: state.filters.article }})
     case "ADD_ARTICLE":
       return Object.assign({}, state, {
@@ -111,24 +109,17 @@ const reducer = (state = initialState, action) => {
         )
       });
     case "RENT_ARTICLE":
-      let tmpState = state;
-      let existCustomer = tmpState.rentals.find( rental => rental.customer === tmpState.customer.name)
-      if (!existCustomer)
-        tmpState.rentals = tmpState.rentals.concat(
-          {
-            customer: tmpState.customer.name,
-            articles: [{ name: action.payload, date: now() }]
-          }
-        )
-      else
-        tmpState.rentals = tmpState.rentals.map(
-          rental => {
-            if (rental.customer === tmpState.customer.name)
-              rental.articles = rental.articles.concat({ name: action.payload,date: now() })
-            return rental;
-          }
-        )
-      return Object.assign({}, state, tmpState);
+      const existCustomer = state.rentals.find( rental => rental.customer === state.customer.name)
+      const newRentals =
+        (existCustomer)
+          ? state.rentals.map( rental => {
+              rental.articles = (rental.customer === state.customer.name)
+                ? rental.articles.concat({ name: action.payload,date: now() })
+                : rental.articles
+              return rental;
+            })
+          : state.rentals.concat( { customer: state.customer.name, articles: [{ name: action.payload, date: now() }] } )
+      return Object.assign({}, state, { rentals: newRentals });
     default:
       return state
   }

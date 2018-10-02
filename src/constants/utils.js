@@ -41,3 +41,5 @@ export const arrayToJson = (x,y,index,arr) =>
   (index === 1) ? ( "{ " + quote(x) + ": " + quote() + ", ").concat(quote(y)) :
   (index === arr.length-1) ? JSON.parse (( x + ': ' + quote() + ", ").concat(quote(y) + ": " + quote() + " }")) :
   ( x + ': ' + quote() + ", ").concat(quote(y));
+
+export const searchNoCase = (a,b) => a.toUpperCase().indexOf(b.toUpperCase()) !== -1

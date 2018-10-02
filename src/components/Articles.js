@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as LABELS from '../constants/labels';
 import BaseRecord from './BaseRecord'
+import { searchNoCase } from '../constants/utils.js'
 
 export class ArticlesTemp extends Component {
   constructor(props) {
@@ -11,13 +12,11 @@ export class ArticlesTemp extends Component {
   }
 
   search(e, { value }) {
-    console.log("search: " + value)
-    console.log("filter: " + this.props.filters.article)
     this.props.SetFilterArticle(value)
   }
 
   render() {
-    const valuesList = this.props.articles.filter( item => item.name.indexOf(this.props.filters.article) !== -1)
+    const valuesList = this.props.articles.filter( item => searchNoCase(item.name,this.props.filters.article) )
     return (
       <BaseRecord
         title={LABELS.ARTICLES}

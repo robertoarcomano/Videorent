@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as LABELS from '../constants/labels';
 import { Search, Header, Label, Grid, Container, Button, Icon, Modal } from 'semantic-ui-react'
 import { table } from './table'
-import { now, calcDelay } from '../constants/utils.js'
+import { now, calcDelay, searchNoCase } from '../constants/utils.js'
 
 export class RentalsTemp extends Component {
   constructor(props) {
@@ -135,7 +135,7 @@ export class RentalsTemp extends Component {
       label = null;
       searchValue = this.props.filters.customer;
       onSearch = this.searchCustomers;
-      valuesList = this.props.customers.filter( item => item.name.indexOf(this.props.filters.customer) !== -1)
+      valuesList = this.props.customers.filter( item => searchNoCase(item.name,this.props.filters.customer) )
       fieldsList = valuesList.length === 0 ? [] : Object.keys(valuesList[0])
       onClick = this.selectCustomer;
       onAdd = null;
@@ -166,7 +166,7 @@ export class RentalsTemp extends Component {
       );
       searchValue = this.props.filters.article;
       onSearch = this.searchArticles;
-      valuesList = this.props.articles.filter( item => item.name.indexOf(this.props.filters.article) !== -1)
+      valuesList = this.props.articles.filter( item => searchNoCase(item.name,this.props.filters.article) )
       fieldsList = valuesList.length === 0 ? [] : Object.keys(valuesList[0])
       onClick = this.selectArticle;
       onAdd = null;
