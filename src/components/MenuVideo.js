@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Icon, Container } from 'semantic-ui-react'
+import { Menu, Icon, Container, Header } from 'semantic-ui-react'
 import * as LABELS from '../constants/labels';
 import { connect } from 'react-redux';
 
@@ -17,9 +17,12 @@ export class MenuVideoTemp extends Component {
     const jenkinsUrl = "https://jenkins.io/";
     return (
       <Container>
-      <Menu >
+      <Menu compact>
         {menuItems}
-        <Menu.Menu position='right'>
+        <Menu.Menu>
+          <Menu.Item key="Videorent">
+            <Header>Videorent - v2018.1</Header>
+          </Menu.Item>
           <Menu.Item
             name="Github"
             key="Github"
