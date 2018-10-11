@@ -21,7 +21,7 @@ export class MenuVideoTemp extends Component {
         {menuItems}
         <Menu.Menu>
           <Menu.Item key="Videorent">
-            <Header>Videorent - v2018.7</Header>
+            <Header>Videorent - v2018.8</Header>
           </Menu.Item>
           <Menu.Item
             name="Github"
