@@ -17,7 +17,7 @@ export class MenuVideoTemp extends Component {
     const jenkinsUrl = "https://jenkins.io/";
     return (
       <Container>
-      <Menu compact>
+      <Menu >
         {menuItems}
         <Menu.Menu position='right'>
           <Menu.Item
