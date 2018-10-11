@@ -7,7 +7,7 @@ import 'semantic-ui-css/semantic.min.css';
 class Root extends Component {
   render() {
     return (
-      <Container style={{ marginTop: '1em',width: 600 }}>
+      <Container style={{ marginTop: '1em'}}>
         <Container>
           <MenuVideo/>
         </Container>

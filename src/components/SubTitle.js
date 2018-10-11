@@ -13,7 +13,7 @@ export class SubTitle extends Component {
     )
 
     return (
-      <Header as='h4' textAlign='center'>
+      <Header as='h4'>
         {fullTitle}
       </Header>
     )

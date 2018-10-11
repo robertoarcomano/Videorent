@@ -103,13 +103,10 @@ export class BaseRecord extends Component {
 
     const mainPage = (
       <Container>
-        <Grid columns={2}>
+        <Grid columns={1}>
           <Grid.Row>
-            <Grid.Column textAlign='left'>
-              {search}
-            </Grid.Column>
-            <Grid.Column textAlign='left'>
-              {addButton}
+            <Grid.Column>
+              {search} {addButton} 
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -133,7 +130,7 @@ export class BaseRecord extends Component {
 
     return (
       <Container>
-        <Header textAlign='center'>{this.props.title}</Header>
+        <Header>{this.props.title}</Header>
         <SubTitle
           pages={this.state.pages}
           action={this.backTo}

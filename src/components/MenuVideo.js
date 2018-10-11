@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Icon } from 'semantic-ui-react'
+import { Menu, Icon, Container } from 'semantic-ui-react'
 import * as LABELS from '../constants/labels';
 import { connect } from 'react-redux';
 
@@ -14,17 +14,29 @@ export class MenuVideoTemp extends Component {
       />
     )
     const gitHubUrl = "https://github.com/robertoarcomano/Videorent";
+    const jenkinsUrl = "https://jenkins.io/";
     return (
-      <Menu compact >
+      <Container>
+      <Menu compact>
         {menuItems}
-        <Menu.Item
-          name="Github"
-          key="Github"
-          onClick={ () => window.open(gitHubUrl) }>
-          <Icon name='github' />
-          Source on Github  
-        </Menu.Item>
+        <Menu.Menu position='right'>
+          <Menu.Item
+            name="Github"
+            key="Github"
+            onClick={ () => window.open(gitHubUrl) }>
+            <Icon size='big' name='github' />
+            Source on Github
+          </Menu.Item>
+          <Menu.Item
+            name="Jenkins"
+            key="Jenkins"
+            onClick={ () => window.open(jenkinsUrl) }>
+            <Icon size='big' name='jenkins' />
+            Build/Deploy with Jenkins
+          </Menu.Item>
+        </Menu.Menu>
       </Menu>
+      </Container>
     )
   }
 }
