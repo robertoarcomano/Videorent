@@ -6,7 +6,7 @@ import { Search, Header, Table, HeaderCell, Row, Cell, Label, Button, Grid, Grid
 import * as LABELS from '../constants/labels';
 import { RentalsTemp as Rentals } from '../components/Rentals'
 
-describe('Rentals: ', () => {
+xdescribe('Rentals: ', () => {
   let rootWrapper;
   const shallowWrapper = () =>
     shallow(<Rentals/>);

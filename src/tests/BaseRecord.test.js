@@ -78,41 +78,64 @@ describe('BaseRecord: ', () => {
     }
   });
 
-  it('New Value: ', () => {
-    // 1. Use mount
-    // rootWrapper = mountWrapper();
+  it('Click New: ', () => {
+    // 1. Checks MAIN_PAGE
+    expect(rootWrapper.instance().isNew()).toBe(false);
 
-    // 2. Checks call to AddArticle be 0
-    expect(newHandler.mock.calls.length).toBe(0);
-
-    // 3. Check popup be not visible
-    expect(rootWrapper.update().state().isPopupOpen).toBe(false);
-
-    // 4. Click Add Button
-    var trigger = rootWrapper.find(Popup).props().trigger;
-    var button = shallow(trigger).find("button");
+    // 2. Simulate Click
+    let button = rootWrapper.find(Button);
     button.simulate("click");
 
-    // 5. Check popup be visible
-    expect(rootWrapper.update().state().isPopupOpen).toBe(true);
-
-    // 6. Write data to state
-    var tmpRecord = { ID: "4", NAME: "name4"}
-    rootWrapper.setState( { record: tmpRecord } )
-
-    var content = rootWrapper.find(Popup).props().content;
-    var buttons = shallow(content)
-                .find("div").children()
-                .find(GridRow).children()
-                .find(GridColumn).children()
-                .find(Button);
-
-    buttons.forEach( button => {
-      if (button.render().text() === "Confirm")
-        button.simulate("click");
-    })
-
-    expect(newHandler.mock.calls.length).toBe(1);
-    expect(newHandler.mock.calls[0][0]).toEqual(tmpRecord);
+    // 3. Check NEW PAGE
+    expect(rootWrapper.instance().isNew()).toBe(true);
   });
+
+  it('Insert new value: ', () => {
+    // 1. Simulate Click
+    let button = rootWrapper.find(Button);
+    button.simulate("click");
+
+    // 2. Insert data in first field (key)
+    let name = fieldsList[0];
+    let value = "hello";
+    rootWrapper.instance().onChangeRecord(name,value);
+
+    // 3. Simulate Confirm Button Click
+    let confirmButton = rootWrapper.find(Button).first();
+    confirmButton.simulate("click");
+
+    // 4. Check Just Inserted Value
+    expect(
+      rootWrapper.update().state().record[name] === value
+    ).toBe(true);
+  });
+
+
+    //
+    // // 2. Click Add Button
+    // var button = rootWrapper.find(Button);
+    // console.log("button: " + button)
+    // button.simulate("click");
+    //
+    // // 5. Check fields be visible
+    // expect(rootWrapper.update().state().isPopupOpen).toBe(true);
+    //
+    // // 6. Write data to state
+    // var tmpRecord = { ID: "4", NAME: "name4"}
+    // rootWrapper.setState( { record: tmpRecord } )
+    //
+    // var content = rootWrapper.find(Popup).props().content;
+    // var buttons = shallow(content)
+    //             .find("div").children()
+    //             .find(GridRow).children()
+    //             .find(GridColumn).children()
+    //             .find(Button);
+    //
+    // buttons.forEach( button => {
+    //   if (button.render().text() === "Confirm")
+    //     button.simulate("click");
+    // })
+    //
+    // expect(newHandler.mock.calls.length).toBe(1);
+    // expect(newHandler.mock.calls[0][0]).toEqual(tmpRecord);
 });
