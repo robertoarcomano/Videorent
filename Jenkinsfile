@@ -4,12 +4,12 @@ node('master') {
     }
     stage('Build') {
         sh 'npm update'
-        sh 'npm run build'
     }
     stage('Test') {
         sh 'npm test'
     }
     stage('Deploy') {
+        sh 'npm run build'
         sh 'rsync -av build/ /www/projects/Videorent/'
     }
 }
