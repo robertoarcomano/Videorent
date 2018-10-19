@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Menu, Icon, Container, Header } from 'semantic-ui-react'
 import * as LABELS from '../constants/labels';
 import { connect } from 'react-redux';
+import packageJson from '../../package.json';
+const version = packageJson.version;
 
 export class MenuVideoTemp extends Component {
   render() {
@@ -21,7 +23,7 @@ export class MenuVideoTemp extends Component {
         {menuItems}
         <Menu.Menu>
           <Menu.Item key="Videorent">
-            <Header>Videorent - v2018.12</Header>
+            <Header>Videorent - v2018.{version}</Header>
           </Menu.Item>
           <Menu.Item
             name="Github"
