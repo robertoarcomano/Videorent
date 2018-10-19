@@ -109,33 +109,4 @@ describe('BaseRecord: ', () => {
       rootWrapper.update().state().record[name] === value
     ).toBe(true);
   });
-
-
-    //
-    // // 2. Click Add Button
-    // var button = rootWrapper.find(Button);
-    // console.log("button: " + button)
-    // button.simulate("click");
-    //
-    // // 5. Check fields be visible
-    // expect(rootWrapper.update().state().isPopupOpen).toBe(true);
-    //
-    // // 6. Write data to state
-    // var tmpRecord = { ID: "4", NAME: "name4"}
-    // rootWrapper.setState( { record: tmpRecord } )
-    //
-    // var content = rootWrapper.find(Popup).props().content;
-    // var buttons = shallow(content)
-    //             .find("div").children()
-    //             .find(GridRow).children()
-    //             .find(GridColumn).children()
-    //             .find(Button);
-    //
-    // buttons.forEach( button => {
-    //   if (button.render().text() === "Confirm")
-    //     button.simulate("click");
-    // })
-    //
-    // expect(newHandler.mock.calls.length).toBe(1);
-    // expect(newHandler.mock.calls[0][0]).toEqual(tmpRecord);
 });

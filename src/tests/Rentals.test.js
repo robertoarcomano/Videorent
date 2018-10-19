@@ -6,10 +6,25 @@ import { Search, Header, Table, HeaderCell, Row, Cell, Label, Button, Grid, Grid
 import * as LABELS from '../constants/labels';
 import { RentalsTemp as Rentals } from '../components/Rentals'
 
-xdescribe('Rentals: ', () => {
+describe('Rentals: ', () => {
   let rootWrapper;
+  const filters = { customer: "customer1" }
+  const customers = [
+    { name: "customer1" },
+    { name: "customer2" }
+  ]
+  const customer = { name: "customer1" }
+  const articles = [
+    { name: "article1" }
+  ]
   const shallowWrapper = () =>
-    shallow(<Rentals/>);
+    shallow(
+      <Rentals
+        filters={filters}
+        customers={customers}
+        customer={customer}
+        articles={articles}
+      />);
   const mountWrapper = () =>
     mount(<Rentals/>);
 

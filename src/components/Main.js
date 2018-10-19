@@ -38,14 +38,6 @@ const mapStateToProps = state => {
   return { active: state.active };
 }
 
-// const ActivateArticles = () => ({ type: "ACTIVATE_ARTICLES", payload: "" });
-//
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     ActivateArticles: () => dispatch(ActivateArticles())
-//   };
-// }
-
 const Main = connect(mapStateToProps,null)(MainTemp);
 
 export default Main;
