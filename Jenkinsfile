@@ -10,6 +10,6 @@ node('master') {
     }
     stage('Deploy') {
         sh 'npm run build'
-        sh 'rsync -av build/ /www/projects/Videorent/'
+        sh 'sudo rsync -av build/ /web/projects/Videorent/'
     }
 }
