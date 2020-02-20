@@ -2,6 +2,9 @@ node('master') {
     stage('scm') {
     	checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/robertoarcomano/Videorent.git']]])
     }
+    stage('Requirements') {
+        sh 'apt install update; apt install -y npm'
+    }
     stage('Build') {
         sh 'npm update'
     }
