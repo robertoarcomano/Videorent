@@ -1,4 +1,4 @@
-node('master') {
+node('slave') {
     stage('scm') {
     	checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/robertoarcomano/Videorent.git']]])
     }
