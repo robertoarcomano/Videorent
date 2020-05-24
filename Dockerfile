@@ -27,13 +27,14 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 #RUN service mysql start && mysql mysql < /tmp/init.sql && mysqladmin create lamp && mysql lamp < /tmp/db.sql
 
 # 1. Copy nodejs source
-ARG DIR=nodejs/
+ARG DIR=/.npm/
 ARG WEB=/var/www/html/
 RUN mkdir $DIR
 WORKDIR $DIR
 COPY src $DIR/src
 COPY public $DIR/public
 COPY package.json server.js $DIR
+RUN chown -R 1000:1000 "$DIR"
 #RUN npm update
 #RUN npm test
 #RUN npm run build
