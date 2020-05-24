@@ -2,14 +2,20 @@ pipeline {
     agent { dockerfile true }
     stages {
         stage('Build') {
-            sh 'npm update'
+            steps {
+                sh 'npm update'
+            }
         }
         stage('Test') {
-            sh 'npm test'
+            steps {
+                sh 'npm test'
+            }
         }
         stage('Deploy') {
-            sh 'npm run build'
-            sh 'sudo rsync -av build/ /web/projects/Videorent/'
+            steps {
+                sh 'npm run build'
+                sh 'sudo rsync -av build/ /web/projects/Videorent/'
+            }
         }
     }
 }
