@@ -1,7 +1,8 @@
 node('master') {
-    stage('scm') {
-    	checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/robertoarcomano/Videorent.git']]])
-    }
+//     stage('scm') {
+//     	checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/robertoarcomano/Videorent.git']]])
+//     }
+    agent { dockerfile true }
     stage('Build') {
         sh 'npm update'
     }
