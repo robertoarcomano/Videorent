@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "rsync -avz -e "ssh -p 8222" build/ root@www.robertoarcomano.it:/var/www/html/"
+                sh "rsync -avz -e 'ssh -p 8222' build/ root@www.robertoarcomano.it:/var/www/html/"
                 sh 'npm update'
             }
         }
