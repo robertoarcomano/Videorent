@@ -34,10 +34,6 @@ WORKDIR $DIR
 COPY src $DIR/src
 COPY public $DIR/public
 COPY package.json server.js $DIR
-RUN chown -R 1000:1000 "$DIR"
+#RUN chown -R 1000:1000 "$DIR"
 RUN rm -rf $WEB/rm .??*
-#RUN npm update
-#RUN npm test
-#RUN npm run build
-#RUN rsync -av build/ $WEB
 CMD ["/usr/bin/supervisord"]
