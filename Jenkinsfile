@@ -15,6 +15,11 @@ pipeline {
                 sh 'npm test'
             }
         }
+        stage('oooowwwwiii') {
+            steps {
+                sh 'ls'
+            }
+        }
         stage('Deploy') {
             steps {
                 sh 'npm run build'
