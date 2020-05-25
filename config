@@ -1,0 +1,4 @@
+Host prod
+    HostName www.robertoarcomano.it
+    port 8222
+    user root

@@ -20,6 +20,7 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 EXPOSE 22
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY id_rsa* /root/.ssh/
+COPY config /root/.ssh/
 
 # 1. Copy nodejs source
 ARG DIR=/.npm/
