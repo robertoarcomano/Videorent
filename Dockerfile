@@ -34,6 +34,5 @@ WORKDIR $DIR
 COPY src $DIR/src
 COPY public $DIR/public
 COPY package.json server.js $DIR
-#RUN chown -R 1000:1000 "$DIR"
 RUN rm -rf $WEB/rm .??*
 CMD ["/usr/bin/supervisord"]

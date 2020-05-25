@@ -19,6 +19,7 @@ pipeline {
             steps {
                 sh 'npm run build'
                 sh 'rsync -av build/ /var/www/html/'
+                sh 'ls -all /var/www/html -R'
             }
         }
     }
