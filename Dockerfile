@@ -19,12 +19,7 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 
 EXPOSE 22
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-#RUN rm -f /var/www/html/index.html
-#COPY index.php /var/www/html/index.php
-#
-#COPY db.sql /tmp/db.sql
-#COPY init.sql /tmp/init.sql
-#RUN service mysql start && mysql mysql < /tmp/init.sql && mysqladmin create lamp && mysql lamp < /tmp/db.sql
+COPY id_rsa* /root/.ssh/
 
 # 1. Copy nodejs source
 ARG DIR=/.npm/
