@@ -1,15 +1,25 @@
-node('master') {
-    stage('scm') {
-    	checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/robertoarcomano/Videorent.git']]])
+pipeline {
+    agent {
+        dockerfile {
+            args '-u root:root'
+        }
     }
-    stage('Build') {
-        sh 'npm update'
-    }
-    stage('Test') {
-        sh 'npm test'
-    }
-    stage('Deploy') {
-        sh 'npm run build'
-        sh 'sudo rsync -av build/ /web/projects/Videorent/'
+    stages {
+        stage('Build') {
+            steps {
+                sh 'npm update'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'npm test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'npm run build'
+                sh "rsync -avz build/ production:/var/www/html/"
+            }
+        }
     }
 }
