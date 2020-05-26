@@ -18,7 +18,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh 'npm run build'
-                sh "rsync -avz build/ production:/var/www/html/"
+                sh "rsync -avz build/ production:/var/www/html/Videorent/"
             }
         }
     }
