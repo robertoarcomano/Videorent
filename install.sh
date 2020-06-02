@@ -11,7 +11,7 @@ docker build -t robertoarcomano/videorent /tmp/videorent
 
 # 3. Create the container from the image
 docker rm -f videorent
-docker create -p 81:80 --name "videorent" --restart=unless-stopped robertoarcomano/videorent
+docker create -p 82:80 --name "videorent" --restart=unless-stopped robertoarcomano/videorent
 
 # 4. Start the container
 docker start videorent
