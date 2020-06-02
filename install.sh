@@ -7,8 +7,6 @@ git clone https://github.com/robertoarcomano/Videorent.git /tmp/videorent
 
 # 2. Download Dockerfile and create image
 docker rmi -f robertoarcomano/videorent
-cp -a public/ /tmp/videorent/
-cp -a supervisord.conf /tmp/videorent/
 docker build -t robertoarcomano/videorent /tmp/videorent
 
 # 3. Create the container from the image
